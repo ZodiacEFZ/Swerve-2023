@@ -5,11 +5,19 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Swerve_subsystem extends SubsystemBase {
+public class SwerveSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
+  public static SwerveSubsystem instance;
   AHRS ahrs;
-  public Swerve_subsystem() {
+  public SwerveSubsystem() {
     ahrs = new AHRS(SPI.Port.kMXP);
+  }
+
+  public static SwerveSubsystem getInstance() {
+    if (instance == null) {
+      instance = new SwerveSubsystem();
+    }
+    return instance;
   }
 
   public CommandBase exampleMethodCommand() {

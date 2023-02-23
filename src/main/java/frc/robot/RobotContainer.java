@@ -5,13 +5,14 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AprilTagAuto;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.Swerve_drive_joystick;
+import frc.robot.commands.SwerveDriveJoystick;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveModule;
-import frc.robot.subsystems.Swerve_subsystem;
-import frc.robot.subsystems.limelight;
+import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -32,13 +33,14 @@ public class RobotContainer {
   // public static intake m_intake = new intake(Constants.intake_port);
   // public static arm Arm = new arm(Constants.arm_port);
  // public static SignalControl m_signalcontrol = new SignalControl(/*m_intake,Arm*/);
-  public static Swerve_subsystem m_calculate = new Swerve_subsystem(); 
+  public static SwerveSubsystem m_calculate = new SwerveSubsystem(); 
   public static SwerveModule LeftFrontSwerveModule = new SwerveModule(1, 34, 14, 3601, 0);      //(number, angleMotorPort, velocityMotorPort, zeroPosition)
   public static SwerveModule RightFrontSwerveModule = new SwerveModule(2, 32, 12, 3831, 1);
   public static SwerveModule RightBackSwerveModule = new SwerveModule(3, 38, 18, 754, 1);
   public static SwerveModule LeftBackSwerveModule = new SwerveModule(4, 36, 16, 3491, 0);
-  public static limelight Limelight = new limelight();
-  public static Swerve_drive_joystick m_swerve_drive = new Swerve_drive_joystick(m_calculate,Limelight);
+  public static Limelight Limelight = new Limelight();
+  public static SwerveDriveJoystick m_swerve_drive = new SwerveDriveJoystick(m_calculate,Limelight);
+  public static AprilTagAuto AprilTagTracking = new AprilTagAuto(m_calculate, Limelight);
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 

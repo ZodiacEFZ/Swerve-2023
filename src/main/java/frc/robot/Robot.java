@@ -87,6 +87,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().schedule(RobotContainer.m_swerve_drive);
+    CommandScheduler.getInstance().schedule(RobotContainer.AprilTagTracking);
   }
 
   @Override
