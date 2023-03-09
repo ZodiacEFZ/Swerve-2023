@@ -163,10 +163,10 @@ public class SwerveDriveJoystick extends CommandBase {
                 velocityGoal[i] = 18000 * velocityGoal[i] + 2000;
             }
 
-            RobotContainer.LeftFrontSwerveModule.setStatus(angleGoal[1], velocityGoal[1]);
-            RobotContainer.RightFrontSwerveModule.setStatus(angleGoal[2], velocityGoal[2]);
-            RobotContainer.RightBackSwerveModule.setStatus(angleGoal[3], velocityGoal[3]);
-            RobotContainer.LeftBackSwerveModule.setStatus(angleGoal[4], velocityGoal[4]);
+            // RobotContainer.LeftFrontSwerveModule.setStatus(angleGoal[1], velocityGoal[1]);
+            // RobotContainer.RightFrontSwerveModule.setStatus(angleGoal[2], velocityGoal[2]);
+            // RobotContainer.RightBackSwerveModule.setStatus(angleGoal[3], velocityGoal[3]);
+            // RobotContainer.LeftBackSwerveModule.setStatus(angleGoal[4], velocityGoal[4]);
             /*
              * SmartDashboard.putNumber("angle1", angleGoal[1]);
              * SmartDashboard.putNumber("v1", velocityGoal[1]);
@@ -181,13 +181,13 @@ public class SwerveDriveJoystick extends CommandBase {
             // SmartDashboard.putNumberArray("angle", angleGoal);
             // SmartDashboard.putNumberArray("velocity", velocityGoal);
         }
-        /*
-         * double a=5,v=2000;
-         * LeftFrontModule.setStatus(a, v);
-         * RightFrontModule.setStatus(a, v);
-         * RightBackModule.setStatus(a, v);
-         * LeftBackModule.setStatus(a, v);
-         */
+        
+         double a=5,v=2000;
+         RobotContainer.LeftFrontSwerveModule.setStatus(a, v);
+         RobotContainer.RightFrontSwerveModule.setStatus(a, v);
+         RobotContainer.RightBackSwerveModule.setStatus(a, v);
+         RobotContainer.LeftBackSwerveModule.setStatus(a, v);
+         
     }
 
     // Called once the command ends or is interrupted.

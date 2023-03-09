@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -30,6 +31,7 @@ public class AprilTagAuto extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        SmartDashboard.putNumber("runningCommand", 1);
         if (SwerveDriveJoystick.getInstance().aprilTagAutoTracking) {
             if (Limelight.getInstance().angle <= err) {
                 SwerveDriveJoystick.getInstance().aprilTagAutoTracking = false;

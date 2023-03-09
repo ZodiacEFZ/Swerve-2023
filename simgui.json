@@ -1,0 +1,66 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "Talon FX[12]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[14]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[16]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[18]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[34]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[34]/Analog In": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[34]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[34]/Pulse Width Input": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[34]/Quad Encoder": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[34]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[36]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo"
+    }
+  }
+}
