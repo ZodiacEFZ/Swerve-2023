@@ -6,8 +6,10 @@ package frc.robot;
 
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.ArmControl;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -59,6 +61,7 @@ public class Robot extends TimedRobot {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+        CommandScheduler.getInstance().enable();
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
@@ -93,7 +96,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
+        // continue until interrupted by another command, remove    
         // this line or comment it out.
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
@@ -104,11 +107,15 @@ public class Robot extends TimedRobot {
         if (!CommandScheduler.getInstance().isScheduled(RobotContainer.AprilTagTracking)) {
             CommandScheduler.getInstance().schedule(RobotContainer.AprilTagTracking);
         }
+        if (!CommandScheduler.getInstance().isScheduled(RobotContainer.armControl)) {
+            CommandScheduler.getInstance().schedule(RobotContainer.armControl);
+        }
     }
 
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+        SmartDashboard.putBoolean("runned", CommandScheduler.getInstance().isScheduled(RobotContainer.m_swerve_drive));
     }
 
     @Override
@@ -120,6 +127,7 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {
+        
     }
 
     /** This function is called once when the robot is first started up. */

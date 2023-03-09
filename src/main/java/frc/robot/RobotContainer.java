@@ -6,9 +6,11 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AprilTagAuto;
+import frc.robot.commands.ArmControl;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.SwerveDriveJoystick;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -31,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
 
     public static Joystick stick = new Joystick(0);
+    public static Joystick stick_control = new Joystick(1);
     // motor command and subsystem
     // public static intake m_intake = new intake(Constants.intake_port);
     // public static arm Arm = new arm(Constants.arm_port);
@@ -50,8 +53,10 @@ public class RobotContainer {
     public static SwerveModule RightFrontSwerveModule = new SwerveModule(2, 32, 16, 2564, 1);
     public static SwerveModule RightBackSwerveModule = new SwerveModule(3, 38, 14, 2666, 1);
     public static Limelight Limelight = new Limelight();
+    public static Elevator elevator = new Elevator();
     public static SwerveDriveJoystick m_swerve_drive = new SwerveDriveJoystick(m_calculate, Limelight);
     public static AprilTagAuto AprilTagTracking = new AprilTagAuto(m_calculate, Limelight);
+    public static ArmControl armControl = new ArmControl(elevator);
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 

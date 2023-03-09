@@ -40,6 +40,7 @@ public class SwerveDriveJoystick extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        System.out.println("initialized");
         field_oriented = false;
     }
 
@@ -70,6 +71,7 @@ public class SwerveDriveJoystick extends CommandBase {
     @Override
     public void execute() {
         SmartDashboard.putNumber("angle", swerve_subsystem.get_field_angle());
+        SmartDashboard.putNumber("test", 1);
         double x_value = RobotContainer.stick.getRawAxis(0);
         double y_value = -RobotContainer.stick.getRawAxis(1);
         double rot_value = RobotContainer.stick.getRawAxis(4);
@@ -163,10 +165,10 @@ public class SwerveDriveJoystick extends CommandBase {
                 velocityGoal[i] = 18000 * velocityGoal[i] + 2000;
             }
 
-            // RobotContainer.LeftFrontSwerveModule.setStatus(angleGoal[1], velocityGoal[1]);
-            // RobotContainer.RightFrontSwerveModule.setStatus(angleGoal[2], velocityGoal[2]);
-            // RobotContainer.RightBackSwerveModule.setStatus(angleGoal[3], velocityGoal[3]);
-            // RobotContainer.LeftBackSwerveModule.setStatus(angleGoal[4], velocityGoal[4]);
+            RobotContainer.LeftFrontSwerveModule.setStatus(angleGoal[1], velocityGoal[1]);
+            RobotContainer.RightFrontSwerveModule.setStatus(angleGoal[2], velocityGoal[2]);
+            RobotContainer.RightBackSwerveModule.setStatus(angleGoal[3], velocityGoal[3]);
+            RobotContainer.LeftBackSwerveModule.setStatus(angleGoal[4], velocityGoal[4]);
             /*
              * SmartDashboard.putNumber("angle1", angleGoal[1]);
              * SmartDashboard.putNumber("v1", velocityGoal[1]);
@@ -182,11 +184,11 @@ public class SwerveDriveJoystick extends CommandBase {
             // SmartDashboard.putNumberArray("velocity", velocityGoal);
         }
         
-         double a=5,v=2000;
-         RobotContainer.LeftFrontSwerveModule.setStatus(a, v);
-         RobotContainer.RightFrontSwerveModule.setStatus(a, v);
-         RobotContainer.RightBackSwerveModule.setStatus(a, v);
-         RobotContainer.LeftBackSwerveModule.setStatus(a, v);
+        //  double a=5,v=2000;
+        //  RobotContainer.LeftFrontSwerveModule.setStatus(a, v);
+        //  RobotContainer.RightFrontSwerveModule.setStatus(a, v);
+        //  RobotContainer.RightBackSwerveModule.setStatus(a, v);
+        //  RobotContainer.LeftBackSwerveModule.setStatus(a, v);
          
     }
 
