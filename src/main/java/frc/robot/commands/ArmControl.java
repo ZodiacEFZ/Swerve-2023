@@ -7,14 +7,35 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Pneumatics;
+import frc.robot.subsystems.Tongs;
 
 public class ArmControl extends CommandBase {
     private final Elevator el;
+    private final Tongs to;
+    private final Pneumatics ph;
+
     /** Creates a new ArmControl. */
-    public ArmControl(Elevator ele) {
+    public ArmControl(Elevator ele, Tongs tong, Pneumatics pneumatics) {
         // Use addRequirements() here to declare subsystem dependencies.
         el = ele;
-        addRequirements(ele);
+        to = tong;
+        ph = pneumatics;
+        addRequirements(ele, tong, pneumatics);
+    }
+
+    public ArmControl(Elevator ele, Tongs tongs) {
+        // Use addRequirements() here to declare subsystem dependencies.
+        el = ele;
+        to = tongs;
+        ph = null;
+        addRequirements(ele, tongs);
+    }
+
+    public ArmControl() {
+        el = null;
+        to = null;
+        ph = null;
     }
 
     // Called when the command is initially scheduled.
@@ -37,6 +58,27 @@ public class ArmControl extends CommandBase {
             if (!el.work) {
                 el.last_pos = el.pos;
             }
+        }
+        // if (RobotContainer.stick_control.getRawButtonPressed(2)) {
+            // ph.stretch();
+        // }
+        if (RobotContainer.stick_control.getRawButtonPressed(2)) {
+            if (to.up) {
+                to.isFliping = !to.isFliping;
+            } else {
+                to.up = true;
+                if (!to.isFliping) to.isFliping = true;
+            }
+            if (!to.isFliping) to.lpos = to.pos;
+        }
+        if (RobotContainer.stick_control.getRawButtonPressed(3)) {
+            if (to.up) {
+                to.up = false;
+                if (!to.isFliping) to.isFliping = true;
+            } else {
+                to.isFliping = !to.isFliping;
+            }
+            if (!to.isFliping) to.lpos = to.pos;
         }
     }
 

@@ -7,18 +7,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.SwerveSubsystem;
 
 public class AprilTagAuto extends CommandBase {
-    private final SwerveSubsystem swerve_Subsystem;
-    private final Limelight lmcam;
+    // private final Limelight lmcam;
 
     /** Creates a new AprilTagAuto. */
-    public AprilTagAuto(SwerveSubsystem swerve_sub, Limelight lm) {
+    public AprilTagAuto() {
         // Use addRequirements() here to declare subsystem dependencies.
-        lmcam = lm;
-        swerve_Subsystem = swerve_sub;
-        addRequirements(swerve_sub, lm);
+        // lmcam = lm;
+        // addRequirements(lm);
     }
 
     public int err = 15;

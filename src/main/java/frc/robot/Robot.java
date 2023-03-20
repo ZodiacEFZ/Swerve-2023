@@ -36,9 +36,9 @@ public class Robot extends TimedRobot {
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-        for (int port = 5800; port <= 5805; port++) {
-            PortForwarder.add(port, "limelight.local", port);
-        }
+        // for (int port = 5800; port <= 5805; port++) {
+        //     PortForwarder.add(port, "limelight.local", port);
+        // }
     }
 
     /**
@@ -104,9 +104,9 @@ public class Robot extends TimedRobot {
         if (!CommandScheduler.getInstance().isScheduled(RobotContainer.m_swerve_drive)) {
             CommandScheduler.getInstance().schedule(RobotContainer.m_swerve_drive);
         }
-        if (!CommandScheduler.getInstance().isScheduled(RobotContainer.AprilTagTracking)) {
-            CommandScheduler.getInstance().schedule(RobotContainer.AprilTagTracking);
-        }
+        // if (!CommandScheduler.getInstance().isScheduled(RobotContainer.AprilTagTracking)) {
+        //     CommandScheduler.getInstance().schedule(RobotContainer.AprilTagTracking);
+        // }
         if (!CommandScheduler.getInstance().isScheduled(RobotContainer.armControl)) {
             CommandScheduler.getInstance().schedule(RobotContainer.armControl);
         }
@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        SmartDashboard.putBoolean("runned", CommandScheduler.getInstance().isScheduled(RobotContainer.m_swerve_drive));
+        // SmartDashboard.putBoolean("runned", CommandScheduler.getInstance().isScheduled(RobotContainer.m_swerve_drive));
     }
 
     @Override

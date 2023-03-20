@@ -15,24 +15,22 @@ import frc.robot.subsystems.Limelight;
 public class SwerveDriveJoystick extends CommandBase {
     /** Creates a new Swerve_drive. */
     private final SwerveSubsystem swerve_subsystem;
-    private final Limelight lm;
     public static SwerveDriveJoystick instance;
     public boolean field_oriented = false, flag = false;
-    public double targetangle = 0, kv = 0.1;
+    public double targetangle = 0, kv = 0.2;
     public double[] angleGoal = new double[8], velocityGoal = new double[8];
 
     public boolean aprilTagAutoTracking = false;
 
-    public SwerveDriveJoystick(SwerveSubsystem s1, Limelight l) {
+    public SwerveDriveJoystick(SwerveSubsystem s1) {
         swerve_subsystem = s1;
-        lm = l;
-        addRequirements(s1, l);
+        addRequirements(s1);
         // Use addRequirements() here to declare subsystem dependencies.
     }
 
     public static SwerveDriveJoystick getInstance() {
         if (instance == null) {
-            instance = new SwerveDriveJoystick(SwerveSubsystem.getInstance(), Limelight.getInstance());
+            instance = new SwerveDriveJoystick(SwerveSubsystem.getInstance());
         }
         return instance;
     }
@@ -40,7 +38,7 @@ public class SwerveDriveJoystick extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        System.out.println("initialized");
+        // System.out.println("initialized");
         field_oriented = false;
     }
 
@@ -71,10 +69,18 @@ public class SwerveDriveJoystick extends CommandBase {
     @Override
     public void execute() {
         SmartDashboard.putNumber("angle", swerve_subsystem.get_field_angle());
-        SmartDashboard.putNumber("test", 1);
+        // SmartDashboard.putNumber("test", 1);
         double x_value = RobotContainer.stick.getRawAxis(0);
+        // double x_value = 0;
         double y_value = -RobotContainer.stick.getRawAxis(1);
-        double rot_value = RobotContainer.stick.getRawAxis(4);
+        double rot_value = -RobotContainer.stick.getRawAxis(4);
+
+        if (y_value <= 0.1 && y_value >= -0.1) {
+            y_value = 0;
+        } else {
+            y_value -= 0.1;
+            y_value = y_value / 9 * 10;
+        }
 
         if (RobotContainer.stick.getRawButtonPressed(1)) {
             if (field_oriented) {
@@ -87,32 +93,24 @@ public class SwerveDriveJoystick extends CommandBase {
                 remble(0.3, 1);
             }
         }
-        if (RobotContainer.stick.getRawButtonPressed(5) && (kv > 0.2)) {
-            kv -= 0.2;
-            if (kv == 0.1 || kv == 0.9) {
-                remble(0.2, 1);
-            } else {
-                remble(0.2, 1);
-            }
+        if (RobotContainer.stick.getRawButtonPressed(5) && (kv > 0.3)) {
+            kv -= 0.8;
+            remble(0.2, 1);
         }
-        if (RobotContainer.stick.getRawButtonPressed(6) && (kv < 0.8)) {
-            kv += 0.2;
-            if (kv == 0.1 || kv == 0.9) {
-                remble(0.2, 1);
-            } else {
-                remble(0.2, 1);
-            }
+        if (RobotContainer.stick.getRawButtonPressed(6) && (kv < 0.9)) {
+            kv += 0.8;
+            remble(0.2, 1);
         }
         // field_oriented=false;
 
-        if (RobotContainer.stick.getRawButtonPressed(4)) {
-            if (lm.trackingStatus) {
-                aprilTagAutoTracking = true;
-                remble(0.2, 1);
-            } else {
-                remble(0.1, 2);
-            }
-        }
+        // if (RobotContainer.stick.getRawButtonPressed(4)) {
+        // if (lm.trackingStatus) {
+        // aprilTagAutoTracking = true;
+        // remble(0.2, 1);
+        // } else {
+        // remble(0.1, 2);
+        // }
+        // }
 
         if (!flag) {
             targetangle = swerve_subsystem.get_field_angle();
@@ -140,12 +138,14 @@ public class SwerveDriveJoystick extends CommandBase {
             } else {
                 if (flag) {
                     double error = targetangle - swerve_subsystem.get_field_angle();
-                    error = -error;
+                    // error = -error;
                     if (error > 180)
                         error -= 360;
                     else if (error < -180)
                         error += 360;
-                    rot_value = error * 0.005;
+                    // rot_value = error * (0.5 - kv / 3);
+                    if (error >= 360) error -= 360;
+                    if (rot_value == 0) rot_value = error * (0.1 - kv / 15);
                     SmartDashboard.putNumber("error", error);
                 }
                 swerve_subsystem.car_oriented(x_value, y_value, rot_value);
@@ -183,13 +183,13 @@ public class SwerveDriveJoystick extends CommandBase {
             // SmartDashboard.putNumberArray("angle", angleGoal);
             // SmartDashboard.putNumberArray("velocity", velocityGoal);
         }
-        
-        //  double a=5,v=2000;
-        //  RobotContainer.LeftFrontSwerveModule.setStatus(a, v);
-        //  RobotContainer.RightFrontSwerveModule.setStatus(a, v);
-        //  RobotContainer.RightBackSwerveModule.setStatus(a, v);
-        //  RobotContainer.LeftBackSwerveModule.setStatus(a, v);
-         
+
+        // double a=5,v=2000;
+        // RobotContainer.LeftFrontSwerveModule.setStatus(a, v);
+        // RobotContainer.RightFrontSwerveModule.setStatus(a, v);
+        // RobotContainer.RightBackSwerveModule.setStatus(a, v);
+        // RobotContainer.LeftBackSwerveModule.setStatus(a, v);
+
     }
 
     // Called once the command ends or is interrupted.

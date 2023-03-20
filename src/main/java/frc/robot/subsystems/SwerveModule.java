@@ -31,7 +31,7 @@ public class SwerveModule extends SubsystemBase {
         angleMotor.setInverted(false);
         angleMotor.configFactoryDefault();
         angleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
-        angleMotor.config_kP(0, 0.8); // *PID need improvement
+        angleMotor.config_kP(0, 0.4); // *PID need improvement
         angleMotor.config_kI(0, 0);
         angleMotor.config_kD(0, 0);
         angleMotor.config_kF(0, 0);
@@ -48,13 +48,17 @@ public class SwerveModule extends SubsystemBase {
         velocityMotor.configFactoryDefault();
         // velocityMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,
         // 0, 0);
-        velocityMotor.config_kP(0, 0.1); // *PID need improvement
+        velocityMotor.config_kP(0, 0.05); // *PID need improvement
         velocityMotor.config_kI(0, 0);
         velocityMotor.config_kD(0, 0);
         // velocityMotor.config_kF(0, 0);
         velocityMotor.setNeutralMode(NeutralMode.Coast);
         velocityMotor.setSensorPhase(true);
         // SmartDashboard.putNumber("v",velocityMotor.getSelectedSensorVelocity());
+    }
+
+    public void config_kP(double nP) {
+        velocityMotor.config_kP(0, nP);
     }
 
     public void setStatus(double angleGoal, double velocityGoal) {
@@ -86,12 +90,12 @@ public class SwerveModule extends SubsystemBase {
 
         double positionGoal = theta_change / 360 * 4096 + position;
 
-        if (Math.abs(theta_change) > 0.5) // * Dead ban of theta change need improvement
+        if (Math.abs(theta_change) > 0.3) // * Dead ban of theta change need improvement
             angleMotor.set(ControlMode.Position, positionGoal);
 
         // velocityMotor.set(ControlMode.Velocity, kVelocity*velocityGoal/2);
         velocityMotor.set(ControlMode.Velocity, kVelocity * velocityGoal);
-        // SmartDashboard.putNumber("velocityGoal " + number, kVelocity*velocityGoal);
+        SmartDashboard.putNumber("velocityEncoderValue " + number, velocityMotor.getSelectedSensorVelocity());
 
     }
 

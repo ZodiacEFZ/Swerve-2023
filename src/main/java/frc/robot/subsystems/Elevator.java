@@ -4,32 +4,36 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Elevator extends SubsystemBase {
 
     /** Creates a new Elevator. */
     public Elevator() {
-        work = false;
-        liftSpeed = 0.2;
-        up = 1;
+        motor_front = new WPI_TalonSRX(Constants.liftingMotorFrontID);
+        motor_back = new WPI_TalonSRX(Constants.liftingMotorBackID);
+        motor_front.configFactoryDefault();
+        motor_back.configFactoryDefault();
+        // motor_front.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+        motor_back.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+        motor_back.config_kP(0, 0.05);
+        motor_back.config_kI(0, 0);
+        motor_back.config_kD(0, 0);
+        motor_front.follow(motor_back);
+        motor_front.setInverted(InvertType.FollowMaster);
     }
 
-    Encoder encoder = new Encoder(0, 1);
-    WPI_TalonSRX motor_front = new WPI_TalonSRX(28);
-    WPI_TalonSRX motor_back = new WPI_TalonSRX(30);
+    WPI_TalonSRX motor_front;
+    WPI_TalonSRX motor_back;
 
     public double pos;
     public double err = 100;
     public double last_pos;
-
-    public void stopLifting() {
-        motor_front.set(0);
-        motor_back.set(0);
-    }
 
     public double liftSpeed = 0.2;
     public int up = 1;
@@ -41,11 +45,16 @@ public class Elevator extends SubsystemBase {
         motor_front.set(up * liftSpeed);
         motor_back.set(up * liftSpeed);
     }
+    
+    public void stopLifting() {
+        motor_front.set(0);
+        motor_back.set(0);
+    }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        pos = encoder.getDistance();
+        pos = motor_back.getSelectedSensorPosition();
         if (work) {
             lift();
         } else {
@@ -57,8 +66,6 @@ public class Elevator extends SubsystemBase {
         while (!work && Math.abs(pos - last_pos) > err) {
             change = true;
         }
-        if (work || Math.abs(pos - last_pos) <= err) {
-            change = false;
-        }
+        change = false;
     }
 }

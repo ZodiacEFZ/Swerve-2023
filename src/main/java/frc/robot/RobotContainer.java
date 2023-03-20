@@ -14,7 +14,9 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Tongs;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Pneumatics;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -40,23 +42,19 @@ public class RobotContainer {
     // public static SignalControl m_signalcontrol = new
     // SignalControl(/*m_intake,Arm*/);
     public static SwerveSubsystem m_calculate = new SwerveSubsystem();
-    /*
-     * leftBack: 12
-     * leftFront: 18
-     * rightBack: 14
-     * rightFront: 16
-     * liftingFront: 28
-     * 
-     */
-    public static SwerveModule LeftFrontSwerveModule = new SwerveModule(1, 34, 18, 1818, 0);
-    public static SwerveModule LeftBackSwerveModule = new SwerveModule(4, 36, 12, 4787, 0);
-    public static SwerveModule RightFrontSwerveModule = new SwerveModule(2, 32, 16, 2564, 1);
-    public static SwerveModule RightBackSwerveModule = new SwerveModule(3, 38, 14, 2666, 1);
-    public static Limelight Limelight = new Limelight();
-    public static Elevator elevator = new Elevator();
-    public static SwerveDriveJoystick m_swerve_drive = new SwerveDriveJoystick(m_calculate, Limelight);
-    public static AprilTagAuto AprilTagTracking = new AprilTagAuto(m_calculate, Limelight);
-    public static ArmControl armControl = new ArmControl(elevator);
+
+    public static SwerveModule LeftFrontSwerveModule = new SwerveModule(1, 38, 18, 2810, 0);
+    public static SwerveModule LeftBackSwerveModule = new SwerveModule(4, 32, 12, 3835, 1);
+    public static SwerveModule RightFrontSwerveModule = new SwerveModule(2, 36, 16, 3590, 0);
+    public static SwerveModule RightBackSwerveModule = new SwerveModule(3, 34, 14, 1734, 1);
+
+    // public static Limelight Limelight = new Limelight();
+    // public static Elevator elevator = new Elevator();
+    public static SwerveDriveJoystick m_swerve_drive = new SwerveDriveJoystick(m_calculate);
+    // public static AprilTagAuto AprilTagTracking = new AprilTagAuto();
+    public static Pneumatics pneumatics = new Pneumatics();
+    // public static Tongs tongs = new Tongs();
+    public static ArmControl armControl = new ArmControl();
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
