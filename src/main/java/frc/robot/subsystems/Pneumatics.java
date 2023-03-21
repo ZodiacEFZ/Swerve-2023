@@ -18,19 +18,24 @@ public class Pneumatics extends SubsystemBase {
         scratcher = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
         stretcher = new Solenoid(PneumaticsModuleType.CTREPCM, 6);
         pcmCompressor.enableDigital();
+        stretched = true;
         scratcher.set(true);
-        stretcher.set(true);
+        stretcher.set(stretched);
     }
 
     public Compressor pcmCompressor;
     public Solenoid scratcher, stretcher;
+    public boolean stretched;
 
     public void scratch() { //抓取
+        System.out.println("scratch");
         scratcher.toggle();
     }
 
     public void stretch() { //翻转
+        System.out.println("stretch");
         stretcher.toggle();
+        stretched = !stretched;
     }
 
     @Override

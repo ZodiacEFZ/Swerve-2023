@@ -27,4 +27,5 @@ public final class Constants {
     public static int flipingLeftMotorID = 20;
     public static int flipingRightMotorID = 6;
 
+    public static double slidePos4Elevator = 0;
 }

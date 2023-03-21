@@ -125,6 +125,9 @@ public class SwerveSubsystem extends SubsystemBase {
         // return Math.PI/6;
     }
 
+    public double get_angle(){
+        return 0.4;
+    }
     @Override
     public void simulationPeriodic() {
         // This method will be called once per scheduler run during simulation

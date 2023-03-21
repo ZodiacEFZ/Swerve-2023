@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.Limelight;
 
 public class SwerveDriveJoystick extends CommandBase {
     /** Creates a new Swerve_drive. */
@@ -144,8 +143,7 @@ public class SwerveDriveJoystick extends CommandBase {
                     else if (error < -180)
                         error += 360;
                     // rot_value = error * (0.5 - kv / 3);
-                    if (error >= 360) error -= 360;
-                    if (rot_value == 0) rot_value = error * (0.1 - kv / 15);
+                    if (Math.abs(rot_value) <= 0.05) rot_value = error * (0.1 - kv / 15);
                     SmartDashboard.putNumber("error", error);
                 }
                 swerve_subsystem.car_oriented(x_value, y_value, rot_value);

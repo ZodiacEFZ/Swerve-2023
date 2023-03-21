@@ -53,8 +53,8 @@ public class RobotContainer {
     public static SwerveDriveJoystick m_swerve_drive = new SwerveDriveJoystick(m_calculate);
     // public static AprilTagAuto AprilTagTracking = new AprilTagAuto();
     public static Pneumatics pneumatics = new Pneumatics();
-    // public static Tongs tongs = new Tongs();
-    public static ArmControl armControl = new ArmControl();
+    public static Tongs tongs = new Tongs();
+    public static ArmControl armControl = new ArmControl(tongs, pneumatics);
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
