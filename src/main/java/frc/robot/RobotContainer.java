@@ -10,7 +10,6 @@ import frc.robot.commands.ArmControl;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.SwerveDriveJoystick;
-import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -49,7 +48,6 @@ public class RobotContainer {
     public static SwerveModule RightBackSwerveModule = new SwerveModule(3, 34, 14, 1734, 1);
 
     // public static Limelight Limelight = new Limelight();
-    // public static Elevator elevator = new Elevator();
     public static SwerveDriveJoystick m_swerve_drive = new SwerveDriveJoystick(m_calculate);
     // public static AprilTagAuto AprilTagTracking = new AprilTagAuto();
     public static Pneumatics pneumatics = new Pneumatics();

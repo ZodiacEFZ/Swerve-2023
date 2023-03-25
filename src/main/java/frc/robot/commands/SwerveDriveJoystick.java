@@ -92,13 +92,14 @@ public class SwerveDriveJoystick extends CommandBase {
                 remble(0.3, 1);
             }
         }
-        if (RobotContainer.stick.getRawButtonPressed(5) && (kv > 0.3)) {
-            kv -= 0.8;
-            remble(0.2, 1);
-        }
-        if (RobotContainer.stick.getRawButtonPressed(6) && (kv < 0.9)) {
-            kv += 0.8;
-            remble(0.2, 1);
+        if (RobotContainer.stick.getRawButtonPressed(9)) {
+            if (Math.abs(kv - 0.2) < 0.1) {
+                kv = 1;
+                remble(0.2, 1);
+            } else if (Math.abs(kv - 1) < 0.1) {
+                kv = 0.2;
+                remble(0.2, 1);
+            }
         }
         // field_oriented=false;
 
@@ -143,7 +144,7 @@ public class SwerveDriveJoystick extends CommandBase {
                     else if (error < -180)
                         error += 360;
                     // rot_value = error * (0.5 - kv / 3);
-                    if (Math.abs(rot_value) <= 0.05) rot_value = error * (0.1 - kv / 15);
+                    if (Math.abs(rot_value) <= 0.05) rot_value = error * (0.2 - kv / 15);
                     SmartDashboard.putNumber("error", error);
                 }
                 swerve_subsystem.car_oriented(x_value, y_value, rot_value);

@@ -24,12 +24,12 @@ public class Tongs extends SubsystemBase {
         armMotorLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
         armMotorRight.follow(armMotorLeft);
         armMotorRight.setInverted(InvertType.OpposeMaster);
-        armMotorLeft.config_kP(0, 0.05); // PID may be improved
+        armMotorLeft.config_kP(0, 0.02); // PID may be improved
         armMotorLeft.config_kI(0, 0);
-        armMotorLeft.config_kD(0, 0);
-        armMotorLeft.configPeakOutputForward(0.3); // caution value
-        armMotorLeft.configPeakOutputReverse(-0.3);
-        armMotorLeft.setNeutralMode(NeutralMode.Coast);
+        armMotorLeft.config_kD(0, 0.05);
+        armMotorLeft.configPeakOutputForward(0.4); // caution value
+        armMotorLeft.configPeakOutputReverse(-0.4);
+        armMotorLeft.setNeutralMode(NeutralMode.Brake);
         armMotorLeft.setSensorPhase(true);
         // init config of elevator motor
         liftingBackMotor.configFactoryDefault();
@@ -41,9 +41,9 @@ public class Tongs extends SubsystemBase {
         liftingBackMotor.config_kP(0, 0.2); // PID should be improved
         liftingBackMotor.config_kI(0, 0);
         liftingBackMotor.config_kD(0, 0);
-        liftingBackMotor.configPeakOutputForward(0.3);
-        liftingBackMotor.configPeakOutputReverse(-0.3);
-        liftingBackMotor.setNeutralMode(NeutralMode.Coast);
+        liftingBackMotor.configPeakOutputForward(0.4);
+        liftingBackMotor.configPeakOutputReverse(-0.4);
+        liftingBackMotor.setNeutralMode(NeutralMode.Brake);
         liftingBackMotor.setSensorPhase(true);
         // init config of pneumatics controller
 
@@ -68,13 +68,16 @@ public class Tongs extends SubsystemBase {
     public int eleMode = 0;
     public double[] elePosGoal = { 1, 2, 3, 4 };
     public double armUpControlValue = 0, armDownControlValue = 0;
+    public int valuePOV_x, valuePOV_y;
 
     public void takein() {
-        takeinMotor.set(-0.5);
+        takeinMotor.set(-0.6);
+        System.out.println("takein");
     }
 
     public void putout() {
         takeinMotor.set(0.6);
+        System.out.println("putout");
     }
 
     public void takeinStop() {
@@ -87,13 +90,13 @@ public class Tongs extends SubsystemBase {
         SmartDashboard.putNumber("armPos", pos);
         SmartDashboard.putNumber("armLastPos", lpos);
         lpos = pos;
-        if (RobotContainer.stick.getRawAxis(0) < 0.1 && RobotContainer.stick.getRawAxis(0) < 0.1) {
-            armUpControlValue = RobotContainer.stick_control.getRawAxis(3);
-            armDownControlValue = RobotContainer.stick_control.getRawAxis(2);
-        } else {
-            armUpControlValue = RobotContainer.stick_control.getRawAxis();
-            armDownControlValue = RobotContainer.stick_control.getRawAxis();
-        }
+        // if (RobotContainer.stick.getRawAxis(2) < 0.1 && RobotContainer.stick.getRawAxis(3) < 0.1) {
+        //     armUpControlValue = RobotContainer.stick_control.getRawAxis(3);
+        //     armDownControlValue = RobotContainer.stick_control.getRawAxis(2);
+        // } else {
+            armUpControlValue = RobotContainer.stick.getRawAxis(3);
+            armDownControlValue = RobotContainer.stick.getRawAxis(2);
+        // }
         if (armDownControlValue > 0.1) {
             System.out.println("down");
             flag = true;
@@ -125,19 +128,21 @@ public class Tongs extends SubsystemBase {
         } else {
             if (flag)
                 armMotorLeft.set(ControlMode.Position, lpos);
+                // System.out.println("remedyArm");
             else
                 lpos = pos;
         }
         // armMotorLeft.set(-0.1);
-
-        if (RobotContainer.stick_control.getRawAxis(5) < -0.1) {
+        if (valuePOV_y == 1) {
+        // if (RobotContainer.stick_control.getRawAxis(5) < -0.1) {
             flag = true;
-            System.out.println("up");
+            // System.out.println("eleUp");
             upEle = true;
             isLifting = true;
-        } else if (RobotContainer.stick_control.getRawAxis(5) > 0.1) {
+        // } else if (RobotContainer.stick_control.getRawAxis(5) > 0.1) {
+        } else if (valuePOV_y == -1) {
             flag = true;
-            System.out.println("down");
+            // System.out.println("eleDown");
             upEle = false;
             isLifting = true;
         } else {
@@ -145,18 +150,28 @@ public class Tongs extends SubsystemBase {
             isLifting = false;
             lposEle = posEle;
         }
+        if (valuePOV_x == -1) {
+            takein();
+            System.out.println("takeindetected");
+        } else if (valuePOV_x == 1) {
+            putout();
+            System.out.println("putoutdetected");
+        } else {
+            takeinStop();
+        }
         SmartDashboard.putBoolean("isFliping", isFliping);
         if (isLifting && upEle) {
             System.out.println("eleUp");
-            liftingBackMotor.set(ControlMode.PercentOutput, 0.25);
+            liftingBackMotor.set(ControlMode.PercentOutput, 0.3);
             posEle = liftingBackMotor.getSelectedSensorPosition();
         } else if (isLifting && !upEle) {
             System.out.println("eleDown");
-            liftingBackMotor.set(ControlMode.PercentOutput, -0.15);
+            liftingBackMotor.set(ControlMode.PercentOutput, -0.2);
             posEle = liftingBackMotor.getSelectedSensorPosition();
         } else {
             if (flag)
                 liftingBackMotor.set(ControlMode.Position, lposEle);
+                // System.out.println("remedyEle");
             else
                 lposEle = posEle;
         }
