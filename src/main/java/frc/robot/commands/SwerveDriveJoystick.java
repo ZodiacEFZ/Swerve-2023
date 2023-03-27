@@ -73,6 +73,7 @@ public class SwerveDriveJoystick extends CommandBase {
         // double x_value = 0;
         double y_value = -RobotContainer.stick.getRawAxis(1);
         double rot_value = -RobotContainer.stick.getRawAxis(4);
+        // rot_value *= 0.838;
 
         if (y_value <= 0.1 && y_value >= -0.1) {
             y_value = 0;
@@ -81,18 +82,18 @@ public class SwerveDriveJoystick extends CommandBase {
             y_value = y_value / 9 * 10;
         }
 
-        if (RobotContainer.stick.getRawButtonPressed(1)) {
-            if (field_oriented) {
-                // Current state is true so turn off
-                field_oriented = false;
-                remble(0.1, 1);
-            } else {
-                // Current state is false so turn on
-                field_oriented = true;
-                remble(0.3, 1);
-            }
-        }
-        if (RobotContainer.stick.getRawButtonPressed(9)) {
+        // if (RobotContainer.stick.getRawButtonPressed(1)) {
+        //     if (field_oriented) {
+        //         // Current state is true so turn off
+        //         field_oriented = false;
+        //         remble(0.1, 1);
+        //     } else {
+        //         // Current state is false so turn on
+        //         field_oriented = true;
+        //         remble(0.3, 1);
+        //     }
+        // }
+        if (RobotContainer.stick.getRawButtonPressed(10)) {
             if (Math.abs(kv - 0.2) < 0.1) {
                 kv = 1;
                 remble(0.2, 1);
@@ -144,7 +145,7 @@ public class SwerveDriveJoystick extends CommandBase {
                     else if (error < -180)
                         error += 360;
                     // rot_value = error * (0.5 - kv / 3);
-                    if (Math.abs(rot_value) <= 0.05) rot_value = error * (0.2 - kv / 15);
+                    if (Math.abs(rot_value) <= 0.05) rot_value = error * (0.02 - kv / 75);
                     SmartDashboard.putNumber("error", error);
                 }
                 swerve_subsystem.car_oriented(x_value, y_value, rot_value);

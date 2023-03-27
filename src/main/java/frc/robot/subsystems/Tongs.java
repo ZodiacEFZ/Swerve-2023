@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
@@ -45,8 +47,8 @@ public class Tongs extends SubsystemBase {
         liftingBackMotor.configPeakOutputReverse(-0.4);
         liftingBackMotor.setNeutralMode(NeutralMode.Brake);
         liftingBackMotor.setSensorPhase(true);
-        // init config of pneumatics controller
-
+        // init config of arm position
+        // lpos = armMotorLeft.getSelectedSensorPosition();
     }
 
     public WPI_TalonFX armMotorLeft = new WPI_TalonFX(20);
@@ -69,14 +71,16 @@ public class Tongs extends SubsystemBase {
     public double[] elePosGoal = { 1, 2, 3, 4 };
     public double armUpControlValue = 0, armDownControlValue = 0;
     public int valuePOV_x, valuePOV_y;
+    public double flippingUpValue, flippingDownValue;
+    public double minElePos, maxElePos;
 
     public void takein() {
-        takeinMotor.set(-0.6);
+        takeinMotor.set(-0.8);
         System.out.println("takein");
     }
 
     public void putout() {
-        takeinMotor.set(0.6);
+        takeinMotor.set(0.75);
         System.out.println("putout");
     }
 
@@ -116,6 +120,8 @@ public class Tongs extends SubsystemBase {
             armMotorLeft.set(ControlMode.PercentOutput, 0);
             isFliping = false;
         }
+        flippingUpValue = 0.15 + (armUpControlValue * 0.1);
+        flippingDownValue = -0.05 - (armDownControlValue * 0.1);
         SmartDashboard.putBoolean("isFliping", isFliping);
         if (isFliping && up) {
             System.out.println("armUp");
@@ -131,6 +137,7 @@ public class Tongs extends SubsystemBase {
                 // System.out.println("remedyArm");
             else
                 lpos = pos;
+            // armMotorLeft.set(ControlMode.Position, lpos);
         }
         // armMotorLeft.set(-0.1);
         if (valuePOV_y == 1) {
@@ -150,6 +157,21 @@ public class Tongs extends SubsystemBase {
             isLifting = false;
             lposEle = posEle;
         }
+        // if (valuePOV_y == 1) {
+        //     isLifting = !isLifting;
+        //     upEle = true;
+        // } else if (valuePOV_y == -1) {
+        //     isLifting = !isLifting;
+        //     upEle = false;
+        // }
+        // if (elePos4Test < minElePos && !upEle) {
+        //     isLifting = false;
+        //     remble(0.1, 1);
+        // }
+        // if (elePos4Test > maxElePos && upEle) {
+        //     isLifting = false;
+        //     remble(0.1, 1);
+        // }
         if (valuePOV_x == -1) {
             takein();
             System.out.println("takeindetected");
@@ -160,13 +182,14 @@ public class Tongs extends SubsystemBase {
             takeinStop();
         }
         SmartDashboard.putBoolean("isFliping", isFliping);
+
         if (isLifting && upEle) {
             System.out.println("eleUp");
-            liftingBackMotor.set(ControlMode.PercentOutput, 0.3);
+            liftingBackMotor.set(ControlMode.PercentOutput, 0.5);
             posEle = liftingBackMotor.getSelectedSensorPosition();
         } else if (isLifting && !upEle) {
             System.out.println("eleDown");
-            liftingBackMotor.set(ControlMode.PercentOutput, -0.2);
+            liftingBackMotor.set(ControlMode.PercentOutput, -0.35);
             posEle = liftingBackMotor.getSelectedSensorPosition();
         } else {
             if (flag)

@@ -48,7 +48,7 @@ public class SwerveModule extends SubsystemBase {
         velocityMotor.configFactoryDefault();
         // velocityMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,
         // 0, 0);
-        velocityMotor.config_kP(0, 0.05); // *PID need improvement
+        velocityMotor.config_kP(0, 0.075); // *PID need improvement
         velocityMotor.config_kI(0, 0);
         velocityMotor.config_kD(0, 0);
         // velocityMotor.config_kF(0, 0);

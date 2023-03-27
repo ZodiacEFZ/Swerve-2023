@@ -10,6 +10,7 @@ import frc.robot.commands.ArmControl;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.SwerveDriveJoystick;
+import frc.robot.commands.auto;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -55,6 +56,7 @@ public class RobotContainer {
     public static ArmControl armControl = new ArmControl(tongs, pneumatics);
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    public static auto m_auto = new auto(pneumatics);
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController = new CommandXboxController(

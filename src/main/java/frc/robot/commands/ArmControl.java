@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
@@ -30,6 +32,17 @@ public class ArmControl extends CommandBase {
         to = tongs;
         pn = null;
         addRequirements(tongs);
+    }
+
+    public void remble(double length, int times) {
+        for (int i = 0; i < times; i++) {
+            RobotContainer.stick.setRumble(RumbleType.kLeftRumble, 1);
+            RobotContainer.stick.setRumble(RumbleType.kRightRumble, 1);
+            Timer.delay(length);
+            RobotContainer.stick.setRumble(RumbleType.kLeftRumble, 0);
+            RobotContainer.stick.setRumble(RumbleType.kRightRumble, 0);
+            Timer.delay(length);
+        }
     }
 
     // Called when the command is initially scheduled.
@@ -61,13 +74,15 @@ public class ArmControl extends CommandBase {
             }
             if (!to.isFliping) to.lpos = to.pos;
         }
-        if (RobotContainer.stick.getRawButtonPressed(5)) {
+        if (RobotContainer.stick.getRawButtonPressed(6)) {
             System.out.println("stretchPressed");
             pn.stretch();
+            remble(0.2, 1);
         }
-        if (RobotContainer.stick.getRawButtonPressed(6)) {
+        if (RobotContainer.stick.getRawButtonPressed(5)) {
             System.out.println("scratchPressed");
             pn.scratch();
+            remble(0.2, 1);
         }
         // if (RobotContainer.stick.getRawButtonPressed(2)) {
         //     takingIn = !takingIn;
@@ -140,6 +155,7 @@ public class ArmControl extends CommandBase {
         } else {
             to.valuePOV_x = to.valuePOV_y = 0;
         }
+        SmartDashboard.putBoolean("pneumatics on??", pn.stretched);
     }
 
     // Called once the command ends or is interrupted.

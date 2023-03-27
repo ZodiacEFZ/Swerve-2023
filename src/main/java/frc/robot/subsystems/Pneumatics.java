@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,8 +19,8 @@ public class Pneumatics extends SubsystemBase {
         scratcher = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
         stretcher = new Solenoid(PneumaticsModuleType.CTREPCM, 6);
         pcmCompressor.enableDigital();
-        stretched = true;
-        scratcher.set(true);
+        stretched = false;
+        scratcher.set(false);
         stretcher.set(stretched);
     }
 
