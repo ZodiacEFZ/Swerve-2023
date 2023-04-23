@@ -64,7 +64,6 @@ public class Limelight extends SubsystemBase {
                                 // startCompetition() error)
             // System.out.println(e.toString());
             data = new double[6];
-            // credit: m5; mol!!!!
         }
 
         x = data[1]; // get detailed value from the former object
